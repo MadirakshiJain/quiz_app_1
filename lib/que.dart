@@ -1,16 +1,50 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:quiz/homepage.dart';
-import 'package:quiz/optionsUI.dart';
+import 'package:provider/provider.dart';
+import 'package:quiz/category.dart';
 
-import 'package:flutter/material.dart';
-
-class QuestionPage extends StatelessWidget {
+class QuestionPage extends StatefulWidget {
   final String topic;
 
   const QuestionPage({Key? key, required this.topic}) : super(key: key);
 
   @override
+  State<QuestionPage> createState() => _QuestionPageState();
+}
+
+class _QuestionPageState extends State<QuestionPage> {
+  @override
   Widget build(BuildContext context) {
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future: fetchQuestions(context),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else {
+          List<Map<String, dynamic>> questions = snapshot.data!;
+          return _buildQuestionPage(questions);
+        }
+      },
+    );
+  }
+
+  Future<List<Map<String, dynamic>>> fetchQuestions(BuildContext context) async {
+    final selectedCategory = Provider.of<QuizState>(context, listen: false).selectedCategory;
+    CollectionReference topicsRef = FirebaseFirestore.instance.collection('questions');
+
+    QuerySnapshot<Map<String, dynamic>> snapshot = await topicsRef
+        .doc(selectedCategory)
+        .collection('topics')
+        .doc(widget.topic)
+        .collection('questions')
+        .get();
+
+    return snapshot.docs.map((doc) => doc.data()).toList();
+  }
+
+  Widget _buildQuestionPage(List<Map<String, dynamic>> questions) {
     return Scaffold(
       body: Container(
         child: SingleChildScrollView(
@@ -49,7 +83,7 @@ class QuestionPage extends StatelessWidget {
                         ),
                         Expanded(
                           child: Text(
-                            " $topic",
+                            " ${widget.topic}",
                             style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -77,11 +111,21 @@ class QuestionPage extends StatelessWidget {
                             )
                           ],
                         ),
-                        child: Expanded(
-                          child: Text(
-                            "Question for $topic",
-                            style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w400),
-                          ),
+                        child: StreamBuilder<List<Map<String, dynamic>>>(
+                          stream: fetchQuestions(context).asStream(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                               String question = snapshot.data?[0]['question'] ?? '';
+                              return Text(
+                                question,
+                                style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w400),
+                              );
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else {
+                              return Text('Loading...');
+                            }
+                          },
                         ),
                       ),
                       SizedBox(
@@ -93,7 +137,7 @@ class QuestionPage extends StatelessWidget {
                             child: CircleAvatar(
                               radius: 25,
                               backgroundColor: Colors.white,
-                              child: Center(child: Text("10", style: TextStyle(color: Color(0xffA42FC1), fontSize: 28),)),
+                              child: Center(child: Text(" ${1} ", style: TextStyle(color: Color(0xffA42FC1), fontSize: 28),)),
                             ),
                           ),
                         ),
@@ -102,53 +146,32 @@ class QuestionPage extends StatelessWidget {
                   ),
                 ],
               ),
-              Container(
-                margin: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 18),
-                padding: EdgeInsets.all(15),
-                width: 320,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(width: 3, color: Color(0xffA42FC1)),
-                ),
-                child: Expanded(
-                  child: Text("Option 1 for the question goes here."),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
-                padding: EdgeInsets.all(15),
-                width: 320,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(width: 3, color: Color(0xffA42FC1)),
-                ),
-                child: Expanded(
-                  child: Text("Option 2 for the question goes here."),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
-                padding: EdgeInsets.all(15),
-                width: 320,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(width: 3, color: Color(0xffA42FC1)),
-                ),
-                child: Expanded(
-                  child: Text("Option 3 for the question goes here."),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
-                padding: EdgeInsets.all(15),
-                width: 320,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(width: 3, color: Color(0xffA42FC1)),
-                ),
-                child: Expanded(
-                  child: Text("Option 4 for the question goes here."),
-                ),
+              SizedBox(height: 20,),
+              StreamBuilder<List<Map<String, dynamic>>>(
+                stream: fetchQuestions(context).asStream(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    List<String> options = List<String>.from(snapshot.data![0]['options']);
+                    return Column(
+                      children: options.map((option) {
+                        return Container(
+                          margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                          padding: EdgeInsets.all(15),
+                          width: 320,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(width: 3, color: Color(0xffA42FC1)),
+                          ),
+                          child: Text(option),
+                        );
+                      }).toList(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    return Text('Loading...');
+                  }
+                },
               ),
               Container(
                 margin: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 15),
@@ -159,7 +182,11 @@ class QuestionPage extends StatelessWidget {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     elevation: 5,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                   setState(() {
+                        
+                    });
+                  },
                   child: Container(
                     alignment: Alignment.center,
                     child: const Text(

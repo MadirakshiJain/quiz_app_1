@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quiz/admin_login.dart';
 import 'package:quiz/que.dart';
-import 'package:quiz/queUI.dart';
+
 import 'package:quiz/topics/civil.dart';
 import 'package:quiz/topics/cse_topics.dart';
 import 'package:quiz/topics/ee_topics.dart';

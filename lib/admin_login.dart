@@ -144,26 +144,31 @@ class _AdminLoginState extends State<AdminLogin> {
       ),
     );
   }
-  LoginAdmin(){
-    FirebaseFirestore.instance.collection("Admin").get().then((snapshot){
-      snapshot.docs.forEach((result) { 
-        if(result.data()['id']!=username_controller.text.trim()){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Invalid Username",
-          style: TextStyle(fontSize: 18),)));
-          
-        }
-        else if(result.data()['password']!=password_controller.text.trim()){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Invalid Password",
-          style: TextStyle(fontSize: 18),)));
-           }
-           else{
-           Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>Add_Quiz()),
-                  );
-           }
-      });
+  void LoginAdmin() {
+  // Flag to track invalid credentials
+  bool invalidCredentials = true;
+
+  FirebaseFirestore.instance.collection("Admin").get().then((snapshot) {
+    snapshot.docs.forEach((result) {
+      if (result.data()['id'] == username_controller.text.trim() &&
+          result.data()['password'] == password_controller.text.trim()) {
+        // If credentials are correct, navigate to Add_Quiz screen
+        invalidCredentials = false;
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Add_Quiz()),
+        );
+      }
     });
-  }
+
+    // Show error message if credentials are invalid
+    if (invalidCredentials) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Invalid username or password",style: TextStyle(fontSize: 18),),
+        
+      ));
+    }
+  });
+}
+
 }

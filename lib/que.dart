@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:quiz/category.dart';
+import 'package:quiz/result.dart';
 
 class QuestionPage extends StatefulWidget {
   final String topic;
@@ -17,13 +19,17 @@ class _QuestionPageState extends State<QuestionPage> {
   List<Map<String, dynamic>>? questions;
   int _currentPageIndex = 0;
   List<List<Color>> optionBorderColors = [];
+   List<bool> answerResults = []; 
 
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController();
-    fetchQuestions();
-  }
+ @override
+void initState() {
+  super.initState();
+  _pageController = PageController();
+  fetchQuestions();
+  // Initialize answerResults list with false values if questions is not null
+  
+}
+
 
   @override
   void dispose() {
@@ -31,11 +37,9 @@ class _QuestionPageState extends State<QuestionPage> {
     super.dispose();
   }
 
- Future<void> fetchQuestions() async {
-  final selectedCategory =
-      Provider.of<QuizState>(context, listen: false).selectedCategory;
-  CollectionReference topicsRef =
-      FirebaseFirestore.instance.collection('questions');
+  Future<void> fetchQuestions() async {
+  final selectedCategory = Provider.of<QuizState>(context, listen: false).selectedCategory;
+  CollectionReference topicsRef = FirebaseFirestore.instance.collection('questions');
 
   QuerySnapshot<Map<String, dynamic>> snapshot = await topicsRef
       .doc(selectedCategory)
@@ -47,11 +51,14 @@ class _QuestionPageState extends State<QuestionPage> {
   setState(() {
     questions = snapshot.docs.map((doc) => doc.data()).toList();
     optionBorderColors = List.generate(questions!.length, (index) {
-      return List<Color>.filled(
-          questions![index]['options'].length, Color(0xffA42FC1));
+      return List<Color>.filled(questions![index]['options'].length, Color(0xffA42FC1));
     });
+
+    // Initialize answerResults list with false values if questions is not null
+    answerResults = List<bool>.filled(questions!.length, false);
   });
 }
+ 
 
 void selectOption(int questionIndex, int selectedOptionIndex) {
   if (questions == null ||
@@ -64,40 +71,28 @@ void selectOption(int questionIndex, int selectedOptionIndex) {
   String selectedOptionValue =
       questions![questionIndex]['options'][selectedOptionIndex];
 
-  // Debug print statements
-  print('Selected Option Value: $selectedOptionValue');
-  print('Correct Answer: ${questions![questionIndex]['correctAnswer']}');
-
   String correctAnswerValue = questions![questionIndex]['correctAnswer'];
 
-  print('Correct Answer Value: $correctAnswerValue');
-
-  if (selectedOptionIndex < 0 ||
-      selectedOptionIndex >= questions![questionIndex]['options'].length) {
-    // Ensure selected option index is within bounds
-    return;
-  }
-
+  // Check if the selected option is correct
   bool isCorrect = selectedOptionValue == correctAnswerValue;
 
-  List<Color> updatedColors =
-      List<Color>.from(optionBorderColors[questionIndex]);
-  for (int i = 0; i < updatedColors.length; i++) {
-    if (i == selectedOptionIndex && isCorrect) {
-      updatedColors[i] = Colors.green; // Green for correct selected option
-    } else if (i == selectedOptionIndex && !isCorrect) {
-      updatedColors[i] = Colors.red; // Red for incorrect selected option
-    } else if (questions![questionIndex]['options'][i] == correctAnswerValue) {
-      updatedColors[i] = Colors.green; // Green for correct option
-    }
-  }
+  // Update the list of answer results
+  answerResults[questionIndex] = isCorrect;
 
-  // Update state with new border colors
+  // Update the UI to reflect the user's selection
   setState(() {
-    optionBorderColors[questionIndex] = updatedColors;
+    // Reset all option colors to default
+    optionBorderColors[questionIndex] =
+        List<Color>.filled(questions![questionIndex]['options'].length, Color(0xffA42FC1));
+
+    // Update the color of the selected option based on correctness
+    if (isCorrect) {
+      optionBorderColors[questionIndex][selectedOptionIndex] = Colors.green;
+    } else {
+      optionBorderColors[questionIndex][selectedOptionIndex] = Colors.red;
+    }
   });
 }
-
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +106,7 @@ void selectOption(int questionIndex, int selectedOptionIndex) {
           ),
         ),
         backgroundColor: Color.fromARGB(255, 160, 20, 184),
-        automaticallyImplyLeading: false, // Remove the back arrow
+        automaticallyImplyLeading: false,
         title: Column(
           children: [
             Row(
@@ -126,17 +121,16 @@ void selectOption(int questionIndex, int selectedOptionIndex) {
                         curve: Curves.ease,
                       );
                     } else {
-                      Navigator.pop(context); // Go to previous screen
+                      Navigator.pop(context);
                     }
                   },
                   icon: Icon(Icons.arrow_back_ios, size: 20),
                 ),
-                
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: SingleChildScrollView(
-                       scrollDirection: Axis.horizontal,
+                      scrollDirection: Axis.horizontal,
                       child: Text(
                         widget.topic,
                         style: TextStyle(
@@ -168,9 +162,10 @@ void selectOption(int questionIndex, int selectedOptionIndex) {
           ],
         ),
       ),
-      
+     
+     
       body: questions == null
-          ? Center(child: CircularProgressIndicator()) // Show loader when questions are loading
+          ? Center(child: CircularProgressIndicator())
           : questions!.isEmpty
               ? Center(child: Text('No questions available for this topic'))
               : Stack(
@@ -237,14 +232,13 @@ void selectOption(int questionIndex, int selectedOptionIndex) {
                                                     horizontal: 20, vertical: 10),
                                                 padding: EdgeInsets.all(15),
                                                 decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
+                                                  borderRadius: BorderRadius.circular(15),
                                                   border: Border.all(
                                                       width: 3,
                                                       color: optionBorderColors[index][optionIndex]),
                                                 ),
-                                                child: Text(questions![index]
-                                                    ['options'][optionIndex]),
+                                                child: Text(
+                                                    questions![index]['options'][optionIndex]),
                                               ),
                                             );
                                           },
@@ -260,19 +254,26 @@ void selectOption(int questionIndex, int selectedOptionIndex) {
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 10, vertical: 12),
                                             shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
+                                                borderRadius: BorderRadius.circular(10)),
                                             elevation: 5,
                                           ),
                                           onPressed: () {
-                                            if (_currentPageIndex <
-                                                questions!.length - 1) {
+                                            if (_currentPageIndex < questions!.length - 1) {
                                               _pageController.nextPage(
-                                                  duration:
-                                                      Duration(milliseconds: 500),
+                                                  duration: Duration(milliseconds: 500),
                                                   curve: Curves.ease);
                                             } else {
-                                              // Handle end of questions
+                                               int totalQuestions = questions!.length;
+                                              // Navigate to the ResultPage when the last question is reached
+                                              Navigator.of(context).push(MaterialPageRoute(
+                                                    builder: (context) => ResultPage(
+                                                        totalQuestions: questions!.length,
+                                                        correctAnswers: calculateCorrectAnswers(),
+                                                        incorrectAnswers: totalQuestions - calculateCorrectAnswers(), 
+                                                        answerResults: calculateAnswerResults(),
+  ),
+));
+
                                             }
                                           },
                                           child: Container(
@@ -314,4 +315,26 @@ void selectOption(int questionIndex, int selectedOptionIndex) {
                 ),
     );
   }
-}
+
+  int calculateCorrectAnswers() {
+    int count = 0;
+    for (int i = 0; i < questions!.length; i++) {
+      if (optionBorderColors[i].contains(Colors.green)) {
+        count++;
+      }
+    }
+    return count;
+  }
+
+ List<bool> calculateAnswerResults() {
+  List<bool> results = [];
+  if (questions == null || optionBorderColors.isEmpty) {
+    return results; // Return an empty list if questions or optionBorderColors is null or empty
+  }
+  for (int i = 0; i < questions!.length; i++) {
+    // Check if the optionBorderColors for the question contains Colors.green
+    bool isCorrect = optionBorderColors[i].contains(Colors.green);
+    results.add(isCorrect);
+  }
+  return results;
+}}

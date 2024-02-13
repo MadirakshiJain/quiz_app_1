@@ -16,6 +16,7 @@ class _QuestionPageState extends State<QuestionPage> {
   late PageController _pageController;
   List<Map<String, dynamic>>? questions;
   int _currentPageIndex = 0;
+  List<List<Color>> optionBorderColors = [];
 
   @override
   void initState() {
@@ -30,23 +31,73 @@ class _QuestionPageState extends State<QuestionPage> {
     super.dispose();
   }
 
-  Future<void> fetchQuestions() async {
-    final selectedCategory =
-        Provider.of<QuizState>(context, listen: false).selectedCategory;
-    CollectionReference topicsRef =
-        FirebaseFirestore.instance.collection('questions');
+ Future<void> fetchQuestions() async {
+  final selectedCategory =
+      Provider.of<QuizState>(context, listen: false).selectedCategory;
+  CollectionReference topicsRef =
+      FirebaseFirestore.instance.collection('questions');
 
-    QuerySnapshot<Map<String, dynamic>> snapshot = await topicsRef
-        .doc(selectedCategory)
-        .collection('topics')
-        .doc(widget.topic)
-        .collection('questions')
-        .get();
+  QuerySnapshot<Map<String, dynamic>> snapshot = await topicsRef
+      .doc(selectedCategory)
+      .collection('topics')
+      .doc(widget.topic)
+      .collection('questions')
+      .get();
 
-    setState(() {
-      questions = snapshot.docs.map((doc) => doc.data()).toList();
+  setState(() {
+    questions = snapshot.docs.map((doc) => doc.data()).toList();
+    optionBorderColors = List.generate(questions!.length, (index) {
+      return List<Color>.filled(
+          questions![index]['options'].length, Color(0xffA42FC1));
     });
+  });
+}
+ 
+void selectOption(int questionIndex, int selectedOptionIndex) {
+  if (questions == null ||
+      questions!.isEmpty ||
+      questionIndex >= questions!.length) {
+    // Ensure questions list is not null, empty, and index is within bounds
+    return;
   }
+
+  String selectedOptionValue =
+      questions![questionIndex]['options'][selectedOptionIndex];
+
+  // Debug print statements
+  print('Selected Option Value: $selectedOptionValue');
+  print('Correct Answer: ${questions![questionIndex]['correctAnswer']}');
+
+  String correctAnswerValue = questions![questionIndex]['correctAnswer'];
+
+  print('Correct Answer Value: $correctAnswerValue');
+
+  if (selectedOptionIndex < 0 ||
+      selectedOptionIndex >= questions![questionIndex]['options'].length) {
+    // Ensure selected option index is within bounds
+    return;
+  }
+
+  bool isCorrect = selectedOptionValue == correctAnswerValue;
+
+  List<Color> updatedColors =
+      List<Color>.from(optionBorderColors[questionIndex]);
+  for (int i = 0; i < updatedColors.length; i++) {
+    if (i == selectedOptionIndex && isCorrect) {
+      updatedColors[i] = Colors.green; // Green for correct selected option
+    } else if (i == selectedOptionIndex && !isCorrect) {
+      updatedColors[i] = Colors.red; // Red for incorrect selected option
+    } else if (questions![questionIndex]['options'][i] == correctAnswerValue) {
+      updatedColors[i] = Colors.green; // Green for correct option
+    }
+  }
+
+  // Update state with new border colors
+  setState(() {
+    optionBorderColors[questionIndex] = updatedColors;
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -171,28 +222,32 @@ class _QuestionPageState extends State<QuestionPage> {
                                         ),
                                       ),
                                       SizedBox(height: 20),
-                                      ...List.generate(
-                                        questions![index]['options'].length,
-                                        (optionIndex) => GestureDetector(
-                                          onTap: () {
-                                            // Handle option selection
+                                      Column(
+                                        children: List.generate(
+                                          questions![index]['options'].length,
+                                          (optionIndex) {
+                                            return GestureDetector(
+                                              onTap: () {
+                                                selectOption(index, optionIndex);
+                                              },
+                                              child: Container(
+                                                constraints: BoxConstraints(
+                                                    minWidth: 350, minHeight: 50),
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 20, vertical: 10),
+                                                padding: EdgeInsets.all(15),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  border: Border.all(
+                                                      width: 3,
+                                                      color: optionBorderColors[index][optionIndex]),
+                                                ),
+                                                child: Text(questions![index]
+                                                    ['options'][optionIndex]),
+                                              ),
+                                            );
                                           },
-                                          child: Container(
-                                            constraints: BoxConstraints(
-                                                minWidth: 350, minHeight: 50),
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 20, vertical: 10),
-                                            padding: EdgeInsets.all(15),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              border: Border.all(
-                                                  width: 3,
-                                                  color: Color(0xffA42FC1)),
-                                            ),
-                                            child: Text(questions![index]
-                                                ['options'][optionIndex]),
-                                          ),
                                         ),
                                       ),
                                       Padding(

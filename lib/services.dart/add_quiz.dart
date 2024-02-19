@@ -2,8 +2,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:quiz/category.dart';
-import 'package:quiz/homepage.dart';
+import 'package:quiz/que_widgets.dart/category.dart';
+import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
 import 'package:random_string/random_string.dart';
 
 class Add_Quiz extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:quiz/homepage.dart';
+import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
 
 class ResultPage extends StatelessWidget {
   final int totalQuestions;

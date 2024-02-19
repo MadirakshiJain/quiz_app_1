@@ -1,9 +1,10 @@
 // ecm_topics.dart
 
 import 'package:flutter/material.dart';
-import 'package:quiz/category.dart';
-import 'package:quiz/homepage.dart';
-import 'package:quiz/que.dart';
+import 'package:quiz/que_widgets.dart/category.dart';
+import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
+import 'package:quiz/que_widgets.dart/homepage/ecm_home.dart';
+import 'package:quiz/screens.dart/que.dart';
  // Update with the correct path
 
 class Ecm_Topics extends StatelessWidget {
@@ -28,7 +29,7 @@ class Ecm_Topics extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Homepage(),
+                            builder: (context) => Ecm_Home(),
                           ),
                         );
                       },
@@ -38,7 +39,7 @@ class Ecm_Topics extends StatelessWidget {
                   Expanded(
                     child: Text(
                       "Electronic and Communication",
-                      style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],

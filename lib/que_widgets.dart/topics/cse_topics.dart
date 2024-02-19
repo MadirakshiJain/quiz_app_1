@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/category.dart';
-import 'package:quiz/homepage.dart';
-import 'package:quiz/que.dart';
+import 'package:quiz/que_widgets.dart/category.dart';
+import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
+import 'package:quiz/screens.dart/que.dart';
 //import 'package:your_app_path/question_page.dart';
 
 class Cse_Topics extends StatelessWidget {
@@ -36,7 +36,7 @@ class Cse_Topics extends StatelessWidget {
                   Expanded(
                     child: Text(
                       "Computer Science & Information Technology",
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white,),
+                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white,),
                     ),
                   ),
                 ],

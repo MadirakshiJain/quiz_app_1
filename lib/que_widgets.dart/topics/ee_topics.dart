@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/category.dart';
-import 'package:quiz/homepage.dart';
-import 'package:quiz/que.dart';
+import 'package:quiz/que_widgets.dart/category.dart';
+import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
+import 'package:quiz/que_widgets.dart/homepage/ee_home.dart';
+import 'package:quiz/screens.dart/que.dart';
 
 class Ee_Topics extends StatelessWidget {
   const Ee_Topics({super.key});
@@ -25,7 +26,7 @@ class Ee_Topics extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Homepage(),
+                            builder: (context) => Ee_Home(),
                           ),
                         );
                       },
@@ -35,7 +36,7 @@ class Ee_Topics extends StatelessWidget {
                   Expanded(
                     child: Text(
                       "Electrical Engineering",
-                      style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],

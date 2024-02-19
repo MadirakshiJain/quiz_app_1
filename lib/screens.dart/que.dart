@@ -1,9 +1,13 @@
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
-import 'package:quiz/category.dart';
-import 'package:quiz/result.dart';
+//import 'package:quiz/category.dart';
+import 'package:quiz/que_widgets.dart/category.dart';
+import 'package:quiz/que_widgets.dart/result.dart';
+//import 'package:quiz/result.dart';
 
 class QuestionPage extends StatefulWidget {
   final String topic;
@@ -19,17 +23,16 @@ class _QuestionPageState extends State<QuestionPage> {
   List<Map<String, dynamic>>? questions;
   int _currentPageIndex = 0;
   List<List<Color>> optionBorderColors = [];
-   List<bool> answerResults = []; 
+  List<bool> answerResults = [];
 
- @override
-void initState() {
-  super.initState();
-  _pageController = PageController();
-  fetchQuestions();
-  // Initialize answerResults list with false values if questions is not null
-  
-}
-
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+    fetchDataAndStoreInFirestore(); // Call the method to fetch data from Gemini API and store in Firestore
+    fetchQuestions(); // Fetch questions from Firestore
+    // Initialize answerResults list with false values if questions is not null
+  }
 
   @override
   void dispose() {
@@ -37,68 +40,90 @@ void initState() {
     super.dispose();
   }
 
-  Future<void> fetchQuestions() async {
-  final selectedCategory = Provider.of<QuizState>(context, listen: false).selectedCategory;
-  CollectionReference topicsRef = FirebaseFirestore.instance.collection('questions');
+  Future<void> fetchDataAndStoreInFirestore() async {
+    try {
+      // Retrieve data from Gemini API
+      var response = await http.get(Uri.parse('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyDZjjM3eOOaThv1PYwn7yALFbMbqBHBNOY'));
 
-  QuerySnapshot<Map<String, dynamic>> snapshot = await topicsRef
-      .doc(selectedCategory)
-      .collection('topics')
-      .doc(widget.topic)
-      .collection('questions')
-      .get();
+      if (response.statusCode == 200) {
+        // Convert response body to JSON
+        var data = json.decode(response.body);
 
-  setState(() {
-    questions = snapshot.docs.map((doc) => doc.data()).toList();
-    optionBorderColors = List.generate(questions!.length, (index) {
-      return List<Color>.filled(questions![index]['options'].length, Color(0xffA42FC1));
-    });
+        // Initialize Firestore
+        FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-    // Initialize answerResults list with false values if questions is not null
-    answerResults = List<bool>.filled(questions!.length, false);
-  });
-}
- 
+        // Store data in Firestore
+        await firestore.collection('gemini_data').add(data);
 
-void selectOption(int questionIndex, int selectedOptionIndex) {
-  if (questions == null ||
-      questions!.isEmpty ||
-      questionIndex >= questions!.length) {
-    // Ensure questions list is not null, empty, and index is within bounds
-    return;
+        print('Data stored in Firestore successfully.');
+      } else {
+        print('Failed to fetch data from Gemini API. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
-  String selectedOptionValue =
-      questions![questionIndex]['options'][selectedOptionIndex];
+  Future<void> fetchQuestions() async {
+    final selectedCategory = Provider.of<QuizState>(context, listen: false).selectedCategory;
+    CollectionReference topicsRef = FirebaseFirestore.instance.collection('questions');
 
-  String correctAnswerValue = questions![questionIndex]['correctAnswer'];
+    QuerySnapshot<Map<String, dynamic>> snapshot = await topicsRef
+        .doc(selectedCategory)
+        .collection('topics')
+        .doc(widget.topic)
+        .collection('questions')
+        .get();
 
-  // Check if the selected option is correct
-  bool isCorrect = selectedOptionValue == correctAnswerValue;
+    setState(() {
+      questions = snapshot.docs.map((doc) => doc.data()).toList();
+      optionBorderColors = List.generate(questions!.length, (index) {
+        return List<Color>.filled(questions![index]['options'].length, Color(0xffA42FC1));
+      });
 
-  // Update the list of answer results
-  answerResults[questionIndex] = isCorrect;
+      // Initialize answerResults list with false values if questions is not null
+      answerResults = List<bool>.filled(questions!.length, false);
+    });
+  }
 
-  // Update the UI to reflect the user's selection
-  setState(() {
-    // Reset all option colors to default
-    optionBorderColors[questionIndex] =
-        List<Color>.filled(questions![questionIndex]['options'].length, Color(0xffA42FC1));
-
-    // Update the color of the selected option based on correctness
-    if (isCorrect) {
-      optionBorderColors[questionIndex][selectedOptionIndex] = Colors.green;
-    } else {
-      optionBorderColors[questionIndex][selectedOptionIndex] = Colors.red;
+  void selectOption(int questionIndex, int selectedOptionIndex) {
+    if (questions == null ||
+        questions!.isEmpty ||
+        questionIndex >= questions!.length) {
+      // Ensure questions list is not null, empty, and index is within bounds
+      return;
     }
-  });
-}
+
+    String selectedOptionValue =
+        questions![questionIndex]['options'][selectedOptionIndex];
+
+    String correctAnswerValue = questions![questionIndex]['correctAnswer'];
+
+    // Check if the selected option is correct
+    bool isCorrect = selectedOptionValue == correctAnswerValue;
+
+    // Update the list of answer results
+    answerResults[questionIndex] = isCorrect;
+
+    // Update the UI to reflect the user's selection
+    setState(() {
+      // Reset all option colors to default
+      optionBorderColors[questionIndex] =
+          List<Color>.filled(questions![questionIndex]['options'].length, Color(0xffA42FC1));
+
+      // Update the color of the selected option based on correctness
+      if (isCorrect) {
+        optionBorderColors[questionIndex][selectedOptionIndex] = Colors.green;
+      } else {
+        optionBorderColors[questionIndex][selectedOptionIndex] = Colors.red;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-       AppBar(
+      appBar: AppBar(
         toolbarHeight: 140,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -162,8 +187,6 @@ void selectOption(int questionIndex, int selectedOptionIndex) {
           ],
         ),
       ),
-     
-     
       body: questions == null
           ? Center(child: CircularProgressIndicator())
           : questions!.isEmpty
@@ -326,15 +349,17 @@ void selectOption(int questionIndex, int selectedOptionIndex) {
     return count;
   }
 
- List<bool> calculateAnswerResults() {
-  List<bool> results = [];
-  if (questions == null || optionBorderColors.isEmpty) {
-    return results; // Return an empty list if questions or optionBorderColors is null or empty
+  List<bool> calculateAnswerResults() {
+    List<bool> results = [];
+    if (questions == null || optionBorderColors.isEmpty) {
+      return results; // Return an empty list if questions or optionBorderColors is null or empty
+    }
+    for (int i = 0; i < questions!.length; i++) {
+      // Check if the optionBorderColors for the question contains Colors.green
+      bool isCorrect = optionBorderColors[i].contains(Colors.green);
+      results.add(isCorrect);
+    }
+    return results;
   }
-  for (int i = 0; i < questions!.length; i++) {
-    // Check if the optionBorderColors for the question contains Colors.green
-    bool isCorrect = optionBorderColors[i].contains(Colors.green);
-    results.add(isCorrect);
-  }
-  return results;
-}}
+}
+

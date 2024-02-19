@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/homepage.dart';
-import 'package:quiz/que.dart';
+import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
+import 'package:quiz/que_widgets.dart/homepage/mec_home.dart';
+import 'package:quiz/screens.dart/que.dart';
 
 class Mec_Topics extends StatelessWidget {
   const Mec_Topics({super.key});
@@ -24,7 +25,7 @@ class Mec_Topics extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Homepage(),
+                            builder: (context) => Mec_Home(),
                           ),
                         );
                       },
@@ -34,7 +35,7 @@ class Mec_Topics extends StatelessWidget {
                   Expanded(
                     child: Text(
                       "Mechanical Engineering",
-                      style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],

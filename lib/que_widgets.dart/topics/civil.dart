@@ -1,8 +1,9 @@
 // civil_topics.dart
 
 import 'package:flutter/material.dart';
-import 'package:quiz/homepage.dart';
-import 'package:quiz/que.dart';
+import 'package:quiz/que_widgets.dart/homepage/civil_home.dart';
+import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
+import 'package:quiz/screens.dart/que.dart';
  // Update with the correct path
 
 class Civil_Topics extends StatelessWidget {
@@ -27,7 +28,7 @@ class Civil_Topics extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Homepage(),
+                            builder: (context) => Civil_Home(),
                           ),
                         );
                       },
@@ -37,7 +38,7 @@ class Civil_Topics extends StatelessWidget {
                   Expanded(
                     child: Text(
                       "Civil Engineering",
-                      style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],

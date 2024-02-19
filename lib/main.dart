@@ -1,9 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:quiz/category.dart';
-import 'package:quiz/firebase_options.dart';
-import 'package:quiz/homepage.dart';
+import 'package:quiz/que_widgets.dart/category.dart';
+import 'package:quiz/screens.dart/welcome.dart';
+import 'package:quiz/services.dart/firebase_options.dart';
+import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
 import 'package:provider/provider.dart';
+import 'package:quiz/screens.dart/vidscreen.dart';
 
 
 void main() async {
@@ -15,30 +17,10 @@ void main() async {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Your App Title',
-        home: MyApp(),
+        home: WelcomeScreen(),
       ),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
-  
-  const MyApp({super.key});
-
-  
-  @override
-  Widget build(BuildContext context) {
-    
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-      
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: Homepage()
-    );
-  }
-}
 

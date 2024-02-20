@@ -6,10 +6,12 @@ import 'package:quiz/services.dart/firebase_options.dart';
 import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
 import 'package:provider/provider.dart';
 import 'package:quiz/screens.dart/vidscreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferences.getInstance();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
   runApp(
     ChangeNotifierProvider(

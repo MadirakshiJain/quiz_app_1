@@ -1,24 +1,23 @@
-import 'dart:math';
+
 
 import 'package:flutter/material.dart';
+import 'package:quiz/que_widgets.dart/topics/cse_topics.dart';
+import 'package:quiz/test.dart';
 import 'package:quiz/screens.dart/vidscreen.dart';
 import 'package:quiz/services.dart/admin_login.dart';
-import 'package:quiz/screens.dart/que.dart';
 
-import 'package:quiz/que_widgets.dart/topics/civil.dart';
-import 'package:quiz/que_widgets.dart/topics/cse_topics.dart';
-import 'package:quiz/que_widgets.dart/topics/ee_topics.dart';
-import 'package:quiz/que_widgets.dart/topics/ecm.dart';
-import 'package:quiz/que_widgets.dart/topics/mec_topics.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
 
+  
+
   @override
   Widget build(BuildContext context) {
+    String topic ;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Hello username !",
+        title: Text("Hello  Madhu !",
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25,color: Colors.white)),
         backgroundColor: Color.fromARGB(255, 160, 20, 184),
       iconTheme: IconThemeData.fallback(),
@@ -232,7 +231,7 @@ class Homepage extends StatelessWidget {
                                              Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AdminLogin()),
+                                builder: (context) => TestPage()),
                           );
                                           },
                                           child: Text(

@@ -97,7 +97,7 @@ Widget build(BuildContext context) {
                         padding:EdgeInsets.symmetric( 
                           vertical: 15,horizontal: 40),
                         child:Text( 
-                          "Register ",
+                          "Get  Started ",
                             style:TextStyle(
 
                           color:Colors.white,
@@ -110,26 +110,27 @@ Widget build(BuildContext context) {
                       ),
                     ),
                     SizedBox(height: 8,),
-                    Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                     Text("Already Registered ? ",style: TextStyle(fontSize: 18),),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                        ),
-                        onPressed: () {
+                  //   Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //    Text("Already Registered ? ",style: TextStyle(fontSize: 18),),
+                  //     TextButton(
+                  //       style: TextButton.styleFrom(
+                  //         padding: EdgeInsets.zero,
+                  //       ),
+                  //       onPressed: () {
                           
-                        },
-                        child: Text(
-                          "Login",
-                          style: TextStyle(
-                              color:Color.fromARGB(255, 160, 20, 184),
-                              fontSize: 18),
-                        ),
-                      )
-                    ],
-                  ),
+                  //       },
+                  //       child:
+                  //       //  Text(
+                  //       //   "Login",
+                  //       //   style: TextStyle(
+                  //       //       color:Color.fromARGB(255, 160, 20, 184),
+                  //       //       fontSize: 18),
+                  //       // ),
+                  //     );
+                  //   ],
+                  // ),
 
                 ],
                 ),

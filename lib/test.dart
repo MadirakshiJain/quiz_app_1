@@ -4,16 +4,15 @@ import 'package:provider/provider.dart';
 import 'package:quiz/que_widgets.dart/category.dart';
 import 'package:quiz/que_widgets.dart/result.dart';
 
-class QuestionPage extends StatefulWidget {
-  final String topic;
-
-  const QuestionPage({Key? key, required this.topic}) : super(key: key);
+class TestPage extends StatefulWidget {
+  
+  const TestPage({Key? key, }) : super(key: key);
 
   @override
-  State<QuestionPage> createState() => _QuestionPageState();
+  State<TestPage> createState() => _QuestionPageState();
 }
 
-class _QuestionPageState extends State<QuestionPage> {
+class _QuestionPageState extends State<TestPage> {
   late PageController _pageController;
   List<Map<String, dynamic>>? questions;
   int _currentPageIndex = 0;
@@ -39,173 +38,238 @@ class _QuestionPageState extends State<QuestionPage> {
     // Each question is represented as a Map<String, dynamic>
     questions = 
     [
-        {
-            "question": "A man starts from point A to point B at 10:00 AM and reaches at 11:00 AM. Then he returns back and starts from point B at 11:30 AM and reaches point A at 12:30 PM. Find the total distance covered by the man.",
-            "options": [
-                "10 km",
-                "20 km",
-                "30 km",
-                "40 km"
-            ],
-            "correctAnswer": "20 km",
-           // "explanation": "The man covers 10 km from point A to point B and then 10 km from point B to point A again, so the total distance covered is 20 km."
-        },
-        {
-            "question": "Find the missing term in the series: 2, 5, 10, 17, 26, ___, 47",
-            "options": [
-                "35",
-                "37",
-                "39",
-                "41"
-            ],
-            "correctAnswer": "37",
-           // "explanation": "The series follows the pattern: add 3, multiply by 2, add 3, multiply by 2, and so on."
-        },
-        {
-            "question": "Find the odd one out: apple, banana, orange, mango, strawberry",
-            "options": [
-                "Apple",
-                "Banana",
-                "Strawberry",
-                "Mango"
-            ],
-            "correctAnswer": "Strawberry",
-           // "explanation": "Strawberry is the odd one out because it is the only fruit that produces seeds on the outside of its fruit."
-        },
-        {
-            "question": "A train leaves Delhi at 10:00 AM and travels at a speed of 60 km/hr. Another train leaves Mumbai at 11:00 AM and travels at a speed of 80 km/hr. If the distance between Delhi and Mumbai is 960 km, at what time will the two trains meet?",
-            "options": [
-                "1:00 PM",
-                "2:00 PM",
-                "3:00 PM",
-                "4:00 PM"
-            ],
-            "correctAnswer": "3:00 PM",
-           // "explanation": "The first train travels for 1 hour before the second train leaves. So, it covers a distance of 60 km. The remaining distance to be covered is 960 km - 60 km = 900 km. The two trains will meet after 900 km / (60 km/hr + 80 km/hr) = 3 hours."
-        },
-        {
-            "question": "Find the next term in the series: 1, 4, 9, 16, 25",
-            "options": [
-                "36",
-                "49",
-                "64",
-                "81"
-            ],
-            "correctAnswer": "36",
-           // "explanation": "The series follows the pattern: square of consecutive natural numbers."
-        },
-        {
-            "question": "A clock strikes once at 1:00 PM, twice at 2:00 PM, three times at 3:00 PM, and so on. How many times will it strike in a 24-hour period?",
-            "options": [
-                "120",
-                "156",
-                "180",
-                "240"
-            ],
-            "correctAnswer": "156",
-           // "explanation": "The clock will strike 12 times for the 12 hours from 1:00 PM to 12:00 AM, and it will strike 144 times for the 12 hours from 1:00 AM to 12:00 PM. So, it will strike a total of 12 + 144 = 156 times in a 24-hour period."
-        },
-        {
-            "question": "Find the sum of the first 10 natural numbers.",
-            "options": [
-                "45",
-                "50",
-                "55",
-                "60"
-            ],
-            "correctAnswer": "55",
-           // "explanation": "The sum of the first n natural numbers is n(n+1)/2. So, the sum of the first 10 natural numbers is 10(10+1)/2 = 55."
-        },
-        {
-            "question": "Find the product of the first 5 prime numbers.",
-            "options": [
-                "210",
-                "2310",
-                "3025",
-                "3250"
-            ],
-            "correctAnswer": "2310",
-           // "explanation": "The first 5 prime numbers are 2, 3, 5, 7, and 11. So, the product of the first 5 prime numbers is 2 * 3 * 5 * 7 * 11 = 2310."
-        },
-        {
-            "question": "Find the greatest common divisor (GCD) of 12 and 18.",
-            "options": [
-                "4",
-                "6",
-                "12",
-                "18"
-            ],
-            "correctAnswer": "6",
-           // "explanation": "The GCD of two numbers is the largest number that divides both numbers without leaving a remainder. The GCD of 12 and 18 is 6."
-        },
-        {
-            "question": "Find the least common multiple (LCM) of 6 and 9.",
-            "options": [
-                "12",
-                "18",
-                "24",
-                "36"
-            ],
-            "correctAnswer": "18",
-           // "explanation": "The LCM of two numbers is the smallest number that is divisible by both numbers. The LCM of 6 and 9 is 18."
-        },
-        {
-            "question": "Find the area of a circle with a radius of 5 cm.",
-            "options": [
-                "25\u03c0 cm^2",
-                "50\u03c0 cm^2",
-                "75\u03c0 cm^2",
-                "100\u03c0 cm^2"
-            ],
-            "correctAnswer": "25\u03c0 cm^2",
-            //"explanation": "The area of a circle is given by \u03c0r^2. So, the area of a circle with a radius of 5 cm is \u03c0 * 5^2 = 25\u03c0 cm^2."
-        },
-        {
-            "question": "Find the volume of a cube with a side length of 4 cm.",
-            "options": [
-                "16 cm^3",
-                "64 cm^3",
-                "256 cm^3",
-                "1024 cm^3"
-            ],
-            "correctAnswer": "64 cm^3",
-            // "explanation": "The volume of a cube is given by s^3. So, the volume of a cube with a side length of 4 cm is 4^3 = 64 cm^3."
-        },
-        {
-            "question": "Find the surface area of a sphere with a radius of 3 cm.",
-            "options": [
-                "12\u03c0 cm^2",
-                "27\u03c0 cm^2",
-                "36\u03c0 cm^2",
-                "108\u03c0 cm^2"
-            ],
-            "correctAnswer": "36\u03c0 cm^2",
-           // "explanation": "The surface area of a sphere is given by 4\u03c0r^2. So, the surface area of a sphere with a radius of 3 cm is 4\u03c0 * 3^2 = 36\u03c0 cm^2."
-        },
-        {
-            "question": "Find the derivative of the function f(x) = x^2.",
-            "options": [
-                "x",
-                "2x",
-                "x^2",
-                "2x^2"
-            ],
-            "correctAnswer": "2x",
-           // "explanation": "The derivative of f(x) = x^n is nx^(n-1). So, the derivative of f(x) = x^2 is 2x^1 = 2x."
-        },
-        {
-            "question": "Find the integral of the function f(x) = sin(x).",
-            "options": [
-                "cos(x)",
-                "-cos(x)",
-                "sin(x)",
-                "-sin(x)"
-            ],
-            "correctAnswer": "-cos(x)",
-          //  "explanation": "The integral of f(x) = sin(x) is -cos(x)."
-        }
-    ];
-
+    {
+        "question": "What is the time complexity of merge sort algorithm?",
+        "options": [
+            "O(n)",
+            "O(n log n)",
+            "O(n^2)",
+            "O(log n)"
+        ],
+        "correctAnswer": "O(n log n)",
+        "explanation": "Merge sort has a time complexity of O(n log n) in all cases, making it efficient for large datasets."
+    },
+    {
+        "question": "What is the purpose of dynamic programming in algorithms?",
+        "options": [
+            "To optimize recursive algorithms",
+            "To reduce the time complexity of algorithms",
+            "To minimize the number of function calls",
+            "To allocate memory dynamically"
+        ],
+        "correctAnswer": "To optimize recursive algorithms",
+        "explanation": "Dynamic programming is a method for solving complex problems by breaking them down into simpler subproblems."
+    },
+    {
+        "question": "What is the primary advantage of using a linked list over an array?",
+        "options": [
+            "Constant-time access to elements",
+            "Better cache locality",
+            "Dynamic size allocation",
+            "Efficient memory utilization"
+        ],
+        "correctAnswer": "Dynamic size allocation",
+        "explanation": "Linked lists allow for efficient insertion and deletion of elements at any position, without requiring contiguous memory allocation."
+    },
+    {
+        "question": "Which data structure is typically used to implement a priority queue?",
+        "options": [
+            "Array",
+            "Linked list",
+            "Heap",
+            "Stack"
+        ],
+        "correctAnswer": "Heap",
+        "explanation": "A heap data structure is commonly used to implement a priority queue due to its efficient insertion and removal of the highest (or lowest) priority element."
+    },
+    {
+        "question": "What is the time complexity of binary search algorithm?",
+        "options": [
+            "O(n)",
+            "O(log n)",
+            "O(n log n)",
+            "O(n^2)"
+        ],
+        "correctAnswer": "O(log n)",
+        "explanation": "Binary search has a time complexity of O(log n), as it halves the search space in each step."
+    },
+    {
+        "question": "What is the main difference between breadth-first search (BFS) and depth-first search (DFS) algorithms?",
+        "options": [
+            "BFS uses a stack data structure, while DFS uses a queue",
+            "BFS explores vertices one level at a time, while DFS explores vertices as far as possible along each branch",
+            "BFS has lower time complexity than DFS",
+            "DFS guarantees finding the shortest path between two vertices"
+        ],
+        "correctAnswer": "BFS explores vertices one level at a time, while DFS explores vertices as far as possible along each branch",
+        "explanation": "BFS systematically explores vertices level by level, while DFS explores as far as possible along each branch before backtracking."
+    },
+    {
+        "question": "What is the purpose of Big O notation in computer science?",
+        "options": [
+            "To represent the upper bound of an algorithm's time complexity",
+            "To measure the actual running time of an algorithm",
+            "To analyze the average-case performance of an algorithm",
+            "To represent the best-case scenario of an algorithm"
+        ],
+        "correctAnswer": "To represent the upper bound of an algorithm's time complexity",
+        "explanation": "Big O notation is used to represent the worst-case time complexity of an algorithm, providing an upper bound on its running time."
+    },
+    {
+        "question": "What is the time complexity of inserting an element into a binary search tree (BST) with n nodes?",
+        "options": [
+            "O(1)",
+            "O(log n)",
+            "O(n)",
+            "O(n log n)"
+        ],
+        "correctAnswer": "O(log n)",
+        "explanation": "Inserting an element into a BST requires traversing the tree from the root to the appropriate leaf node, which takes O(log n) time on average for a balanced tree."
+    },
+    {
+        "question": "Which sorting algorithm has the best time complexity in the worst-case scenario?",
+        "options": [
+            "Merge sort",
+            "Quick sort",
+            "Insertion sort",
+            "Bubble sort"
+        ],
+        "correctAnswer": "Merge sort",
+        "explanation": "Merge sort has a time complexity of O(n log n) in all cases, making it efficient for worst-case scenarios."
+    },
+    {
+        "question": "What is the purpose of a hash table?",
+        "options": [
+            "To store data in sorted order",
+            "To provide constant-time access to elements",
+            "To allocate memory dynamically",
+            "To efficiently implement associative arrays"
+        ],
+        "correctAnswer": "To efficiently implement associative arrays",
+        "explanation": "A hash table is a data structure that maps keys to values, providing efficient insertion, deletion, and lookup operations."
+    },
+    {
+        "question": "What is the time complexity of finding the shortest path between two vertices in a weighted graph using Dijkstra's algorithm?",
+        "options": [
+            "O(V)",
+            "O(E)",
+            "O(V log V)",
+            "O(V^2)"
+        ],
+        "correctAnswer": "O(V^2)",
+        "explanation": "Dijkstra's algorithm has a time complexity of O(V^2) when using an adjacency matrix representation of the graph."
+    },
+    {
+        "question": "What is the main advantage of using an AVL tree over a binary search tree (BST)?",
+        "options": [
+            "AVL trees have a simpler insertion operation",
+            "AVL trees have faster search operations",
+            "AVL trees guarantee balanced height, ensuring O(log n) operations",
+            "AVL trees require less memory allocation"
+        ],
+        "correctAnswer": "AVL trees guarantee balanced height, ensuring O(log n) operations",
+        "explanation": "AVL trees maintain balanced height, which ensures that operations such as insertion, deletion, and search have O(log n) time complexity."
+    },
+    {
+        "question": "What is the primary purpose of a cache memory in computer architecture?",
+        "options": [
+            "To store frequently accessed data for fast retrieval",
+            "To increase the clock speed of the CPU",
+            "To provide additional storage space for programs",
+            "To enhance the security of the system"
+        ],
+        "correctAnswer": "To store frequently accessed data for fast retrieval",
+        "explanation": "Cache memory is used to temporarily store frequently accessed data and instructions, reducing the average time to access memory."
+    },
+    {
+        "question": "What is the time complexity of the Floyd-Warshall algorithm for finding all shortest paths in a weighted graph?",
+        "options": [
+            "O(V)",
+            "O(E)",
+            "O(V log V)",
+            "O(V^3)"
+        ],
+        "correctAnswer": "O(V^3)",
+        "explanation": "The Floyd-Warshall algorithm has a time complexity of O(V^3) due to its triple nested loops."
+    },
+    {
+        "question": "What is the main difference between a stack and a queue data structure?",
+        "options": [
+            "Stack allows only sequential access, while queue allows random access",
+            "Stack follows LIFO (Last In, First Out) principle, while queue follows FIFO (First In, First Out) principle",
+            "Stack has lower time complexity than queue",
+            "Stack can hold a variable number of elements, while queue has a fixed size"
+        ],
+        "correctAnswer": "Stack follows LIFO (Last In, First Out) principle, while queue follows FIFO (First In, First Out) principle",
+        "explanation": "Stack allows elements to be inserted and removed from only one end, while queue allows elements to be inserted at the rear and removed from the front."
+    },
+    {
+        "question": "What is the primary use case of the A* search algorithm?",
+        "options": [
+            "Pathfinding in games and robotics",
+            "Sorting elements in an array",
+            "Searching for patterns in text",
+            "Finding the maximum flow in a network"
+        ],
+        "correctAnswer": "Pathfinding in games and robotics",
+        "explanation": "The A* search algorithm is commonly used for pathfinding in games and robotics, where finding the shortest path from a starting point to a goal is essential."
+    },
+    {
+        "question": "What is the time complexity of the Knuth-Morris-Pratt (KMP) algorithm for string searching?",
+        "options": [
+            "O(n)",
+            "O(m)",
+            "O(n log n)",
+            "O(n + m)"
+        ],
+        "correctAnswer": "O(n + m)",
+        "explanation": "The Knuth-Morris-Pratt algorithm has a time complexity of O(n + m), where n is the length of the text and m is the length of the pattern to be searched."
+    },
+    {
+        "question": "What is the main advantage of using a red-black tree over a binary search tree (BST)?",
+        "options": [
+            "Red-black trees have faster search operations",
+            "Red-black trees guarantee balanced height, ensuring O(log n) operations",
+            "Red-black trees require less memory allocation",
+            "Red-black trees allow for parallel processing"
+        ],
+        "correctAnswer": "Red-black trees guarantee balanced height, ensuring O(log n) operations",
+        "explanation": "Red-black trees maintain balanced height, ensuring that operations such as insertion, deletion, and search have O(log n) time complexity."
+    },
+    {
+        "question": "What is the time complexity of the Bellman-Ford algorithm for finding the shortest paths from a single source vertex in a weighted graph?",
+        "options": [
+            "O(V)",
+            "O(E)",
+            "O(V log V)",
+            "O(VE)"
+        ],
+        "correctAnswer": "O(VE)",
+        "explanation": "The Bellman-Ford algorithm has a time complexity of O(VE) due to its nested loops over all edges and vertices."
+    },
+    {
+        "question": "What is the primary advantage of using a trie data structure?",
+        "options": [
+            "Tries have faster search operations than hash tables",
+            "Tries allow for efficient prefix search operations",
+            "Tries have constant-time access to elements",
+            "Tries guarantee balanced height, ensuring O(log n) operations"
+        ],
+        "correctAnswer": "Tries allow for efficient prefix search operations",
+        "explanation": "Tries are tree-based data structures that store strings in a hierarchical manner, making them efficient for prefix search operations."
+    },
+    {
+        "question": "What is the purpose of the Ford-Fulkerson algorithm?",
+        "options": [
+            "To find the minimum spanning tree of a graph",
+            "To find the maximum flow in a network",
+            "To perform topological sorting of a graph",
+            "To detect cycles in a graph"
+        ],
+        "correctAnswer": "To find the maximum flow in a network",
+        "explanation": "The Ford-Fulkerson algorithm is used to find the maximum flow in a flow network, which represents a directed graph where each edge has a capacity."
+    }
+];
 
     // Initialize option border colors and answer results
     optionBorderColors = List.generate(
@@ -251,7 +315,7 @@ class _QuestionPageState extends State<QuestionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 140,
+        toolbarHeight: 100,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(30.0),
@@ -278,26 +342,8 @@ class _QuestionPageState extends State<QuestionPage> {
                   },
                   icon: Icon(Icons.arrow_back_ios, size: 20),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Text(
-                        widget.topic,
-                        style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            CircleAvatar(
+                SizedBox(width: 100,),
+                 CircleAvatar(
               radius: 28,
               backgroundColor: Color.fromARGB(255, 223, 150, 241),
               child: CircleAvatar(
@@ -311,6 +357,10 @@ class _QuestionPageState extends State<QuestionPage> {
                 ),
               ),
             ),
+              ],
+            ),
+            
+            
           ],
         ),
       ),
@@ -336,7 +386,7 @@ class _QuestionPageState extends State<QuestionPage> {
                                 return SingleChildScrollView(
                                   child: Column(
                                     children: [
-                                      SizedBox(height: 20),
+                                      SizedBox(height: 40),
                                       Container(
                                         constraints: BoxConstraints(
                                             minHeight: 100, minWidth: 350),
@@ -458,19 +508,7 @@ class _QuestionPageState extends State<QuestionPage> {
                                           ),
                                         ),
                                       ),
-                                      Center(
-                                        child: TextButton(
-                                          onPressed: () {},
-                                          child: Text(
-                                            "View Description",
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color.fromARGB(255, 160, 20, 184),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                                     
                                       SizedBox(height: 20)
                                     ],
                                   ),

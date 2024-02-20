@@ -1,13 +1,13 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
-//import 'package:quiz/category.dart';
 import 'package:quiz/que_widgets.dart/category.dart';
+
 import 'package:quiz/que_widgets.dart/result.dart';
-//import 'package:quiz/result.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QuestionPage extends StatefulWidget {
   final String topic;
@@ -29,9 +29,7 @@ class _QuestionPageState extends State<QuestionPage> {
   void initState() {
     super.initState();
     _pageController = PageController();
-    fetchDataAndStoreInFirestore(); // Call the method to fetch data from Gemini API and store in Firestore
-    fetchQuestions(); // Fetch questions from Firestore
-    // Initialize answerResults list with false values if questions is not null
+    fetchQuestions();
   }
 
   @override
@@ -40,50 +38,54 @@ class _QuestionPageState extends State<QuestionPage> {
     super.dispose();
   }
 
-  Future<void> fetchDataAndStoreInFirestore() async {
-    try {
-      // Retrieve data from Gemini API
-      var response = await http.get(Uri.parse('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyDZjjM3eOOaThv1PYwn7yALFbMbqBHBNOY'));
-
-      if (response.statusCode == 200) {
-        // Convert response body to JSON
-        var data = json.decode(response.body);
-
-        // Initialize Firestore
-        FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-        // Store data in Firestore
-        await firestore.collection('gemini_data').add(data);
-
-        print('Data stored in Firestore successfully.');
-      } else {
-        print('Failed to fetch data from Gemini API. Status code: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error: $e');
-    }
-  }
-
   Future<void> fetchQuestions() async {
-    final selectedCategory = Provider.of<QuizState>(context, listen: false).selectedCategory;
-    CollectionReference topicsRef = FirebaseFirestore.instance.collection('questions');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final cachedQuestionsKey = 'cached_questions_${widget.topic}';
 
-    QuerySnapshot<Map<String, dynamic>> snapshot = await topicsRef
-        .doc(selectedCategory)
-        .collection('topics')
-        .doc(widget.topic)
-        .collection('questions')
-        .get();
+    String? cachedQuestions = prefs.getString(cachedQuestionsKey);
+    if (cachedQuestions != null) {
+      setState(() {
+        questions = List<Map<String, dynamic>>.from(json.decode(cachedQuestions));
+        optionBorderColors = List.generate(
+          questions!.length,
+          (index) => List<Color>.filled(
+            questions![index]['options'].length,
+            Color(0xffA42FC1),
+          ),
+        );
+        answerResults = List<bool>.filled(questions!.length, false);
+      });
+    } else {
+      final selectedCategory =
+          Provider.of<QuizState>(context, listen: false).selectedCategory;
+      CollectionReference topicsRef =
+          FirebaseFirestore.instance.collection('questions');
 
-    setState(() {
-      questions = snapshot.docs.map((doc) => doc.data()).toList();
-      optionBorderColors = List.generate(questions!.length, (index) {
-        return List<Color>.filled(questions![index]['options'].length, Color(0xffA42FC1));
+      QuerySnapshot<Map<String, dynamic>> snapshot = await topicsRef
+          .doc(selectedCategory)
+          .collection('topics')
+          .doc(widget.topic)
+          .collection('questions')
+          .get();
+
+      List<Map<String, dynamic>> fetchedQuestions =
+          snapshot.docs.map((doc) => doc.data()).toList();
+
+      setState(() {
+        questions = fetchedQuestions;
+        optionBorderColors = List.generate(
+          questions!.length,
+          (index) => List<Color>.filled(
+            questions![index]['options'].length,
+            Color(0xffA42FC1),
+          ),
+        );
+        answerResults = List<bool>.filled(questions!.length, false);
       });
 
-      // Initialize answerResults list with false values if questions is not null
-      answerResults = List<bool>.filled(questions!.length, false);
-    });
+      // Cache fetched questions
+      prefs.setString(cachedQuestionsKey, json.encode(fetchedQuestions));
+    }
   }
 
   void selectOption(int questionIndex, int selectedOptionIndex) {
@@ -286,17 +288,15 @@ class _QuestionPageState extends State<QuestionPage> {
                                                   duration: Duration(milliseconds: 500),
                                                   curve: Curves.ease);
                                             } else {
-                                               int totalQuestions = questions!.length;
-                                              // Navigate to the ResultPage when the last question is reached
+                                              int totalQuestions = questions!.length;
                                               Navigator.of(context).push(MaterialPageRoute(
-                                                    builder: (context) => ResultPage(
-                                                        totalQuestions: questions!.length,
-                                                        correctAnswers: calculateCorrectAnswers(),
-                                                        incorrectAnswers: totalQuestions - calculateCorrectAnswers(), 
-                                                        answerResults: calculateAnswerResults(),
-  ),
-));
-
+                                                builder: (context) => ResultPage(
+                                                  totalQuestions: questions!.length,
+                                                  correctAnswers: calculateCorrectAnswers(),
+                                                  incorrectAnswers: totalQuestions - calculateCorrectAnswers(),
+                                                  answerResults: calculateAnswerResults(),
+                                                ),
+                                              ));
                                             }
                                           },
                                           child: Container(
@@ -313,16 +313,17 @@ class _QuestionPageState extends State<QuestionPage> {
                                       ),
                                       Center(
                                         child: TextButton(
-                                            onPressed: () {},
-                                            child: Text(
-                                              "View Description",
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                                color: Color.fromARGB(
-                                                    255, 160, 20, 184),
-                                              ),
-                                            )),
+                                          onPressed: () {},
+                                          child: Text(
+                                            "View Description",
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color.fromARGB(
+                                                  255, 160, 20, 184),
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                       SizedBox(height: 20)
                                     ],
@@ -362,4 +363,3 @@ class _QuestionPageState extends State<QuestionPage> {
     return results;
   }
 }
-

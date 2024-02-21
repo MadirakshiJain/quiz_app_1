@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:quiz/screens.dart/vidscreen.dart';
 import 'package:quiz/services.dart/admin_login.dart';
-import 'package:quiz/screens.dart/que.dart';
+import 'package:quiz/que_widgets.dart/widgets/que.dart';
 
 import 'package:quiz/que_widgets.dart/topics/civil.dart';
 import 'package:quiz/que_widgets.dart/topics/cse_topics.dart';
@@ -18,7 +18,7 @@ class Mec_Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Hello username !",
+        title: Text("Hey !",
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25,color: Colors.white)),
         backgroundColor: Color.fromARGB(255, 160, 20, 184),
       iconTheme: IconThemeData.fallback(),

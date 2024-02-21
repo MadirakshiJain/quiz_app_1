@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:quiz/que_widgets.dart/homepage/civil_home.dart';
 import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
-import 'package:quiz/screens.dart/que.dart';
+import 'package:quiz/que_widgets.dart/widgets/que.dart';
  // Update with the correct path
 
 class Civil_Topics extends StatelessWidget {
@@ -23,16 +23,10 @@ class Civil_Topics extends StatelessWidget {
                 children: [
                   Container(
                     child: IconButton(
-                      color: Colors.white,
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Civil_Home(),
-                          ),
-                        );
+                        Navigator.of(context).pop(); // Navigate back to previous page
                       },
-                      icon: Icon(Icons.arrow_back_ios, size: 20,),
+                      icon: Icon(Icons.arrow_back_ios, color: Colors.white),
                     ),
                   ),
                   Expanded(

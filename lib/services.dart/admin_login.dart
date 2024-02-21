@@ -48,10 +48,6 @@ class _AdminLoginState extends State<AdminLogin> {
                         Expanded(child: Text("Admin  Login",style: TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold),)),
                       ],
                     ),
-            //   Text("Admin  Login",style: TextStyle(
-            //     color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold
-            //   ),
-            //  ),
              SizedBox(height: 70,),
              Material(
               elevation: 3,
@@ -145,7 +141,6 @@ class _AdminLoginState extends State<AdminLogin> {
     );
   }
   void LoginAdmin() {
-  // Flag to track invalid credentials
   bool invalidCredentials = true;
 
   FirebaseFirestore.instance.collection("Admin").get().then((snapshot) {
@@ -161,7 +156,6 @@ class _AdminLoginState extends State<AdminLogin> {
       }
     });
 
-    // Show error message if credentials are invalid
     if (invalidCredentials) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Invalid username or password",style: TextStyle(fontSize: 18),),

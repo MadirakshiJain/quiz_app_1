@@ -1,10 +1,10 @@
 // ecm_topics.dart
 
 import 'package:flutter/material.dart';
-import 'package:quiz/que_widgets.dart/category.dart';
+import 'package:quiz/que_widgets.dart/widgets/category.dart';
 import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
 import 'package:quiz/que_widgets.dart/homepage/ecm_home.dart';
-import 'package:quiz/screens.dart/que.dart';
+import 'package:quiz/que_widgets.dart/widgets/que.dart';
  // Update with the correct path
 
 class Ecm_Topics extends StatelessWidget {
@@ -24,16 +24,10 @@ class Ecm_Topics extends StatelessWidget {
                 children: [
                   Container(
                     child: IconButton(
-                      color: Colors.white,
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Ecm_Home(),
-                          ),
-                        );
+                        Navigator.of(context).pop(); // Navigate back to previous page
                       },
-                      icon: Icon(Icons.arrow_back_ios, size: 20,),
+                      icon: Icon(Icons.arrow_back_ios, color: Colors.white),
                     ),
                   ),
                   Expanded(

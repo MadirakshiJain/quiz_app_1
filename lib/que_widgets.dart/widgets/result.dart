@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:quiz/que_widgets.dart/widgets/branches.dart';
+import 'package:quiz/que_widgets.dart/homepage/civil_home.dart';
 import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
+import 'package:quiz/que_widgets.dart/homepage/ecm_home.dart';
+import 'package:quiz/que_widgets.dart/homepage/ee_home.dart';
+import 'package:quiz/que_widgets.dart/homepage/mec_home.dart';
 
 class ResultPage extends StatelessWidget {
   final int totalQuestions;
   final int correctAnswers;
   final int incorrectAnswers;
   final List<bool> answerResults;
+  final String selectedCategory;
+  final String? selectedSubcategory;
 
   ResultPage({
     required this.totalQuestions,
     required this.correctAnswers,
     required this.incorrectAnswers,
     required this.answerResults,
+    required this.selectedCategory,
+    this.selectedSubcategory,
   });
 
   @override
@@ -30,6 +39,30 @@ class ResultPage extends StatelessWidget {
       incorrectAnswersValue = 1;
     } else if (correctAnswers == 0 && incorrectAnswers == totalQuestions) {
       correctAnswersValue = 1;
+    }
+
+    // Determine which homepage to navigate based on the selected category
+    Widget homepage;
+    switch (selectedCategory) {
+      case 'Computer Science':
+        homepage = Homepage();
+        break;
+      case 'Mechanical':
+        homepage = Mec_Home();
+        break;
+      case 'Electrical':
+        homepage = Ee_Home();
+        break;
+      case 'Electronic':
+        homepage = Ecm_Home();
+        break;
+      case 'Civil':
+        homepage = Civil_Home();
+        break;
+      // Add cases for other categories if needed
+      default:
+        homepage =Branches();
+        break;
     }
 
     return Scaffold(
@@ -136,7 +169,7 @@ class ResultPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Homepage(),
+                        builder: (context) => homepage,
                       ),
                     );
                   },

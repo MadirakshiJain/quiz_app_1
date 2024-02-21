@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/que_widgets.dart/category.dart';
+import 'package:quiz/que_widgets.dart/widgets/category.dart';
 import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
-import 'package:quiz/screens.dart/que.dart';
+import 'package:quiz/que_widgets.dart/widgets/que.dart';
 //import 'package:your_app_path/question_page.dart';
 
 class Cse_Topics extends StatelessWidget {
@@ -21,16 +21,10 @@ class Cse_Topics extends StatelessWidget {
                 children: [
                   Container(
                     child: IconButton(
-                      color: Colors.white,
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Homepage(),
-                          ),
-                        );
+                        Navigator.of(context).pop(); // Navigate back to previous page
                       },
-                      icon: Icon(Icons.arrow_back_ios, size: 20,),
+                      icon: Icon(Icons.arrow_back_ios, color: Colors.white),
                     ),
                   ),
                   Expanded(

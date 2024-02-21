@@ -2,9 +2,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:quiz/que_widgets.dart/category.dart';
+import 'package:quiz/que_widgets.dart/widgets/category.dart';
 import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
-import 'package:random_string/random_string.dart';
+
 
 class Add_Quiz extends StatefulWidget {
   const Add_Quiz({super.key});
@@ -20,6 +20,7 @@ class _Add_QuizState extends State<Add_Quiz> {
   TextEditingController option3_controller = new TextEditingController();
   TextEditingController option4_controller = new TextEditingController();
   TextEditingController correctAns_controller = new TextEditingController();
+  TextEditingController Discription_controller =new TextEditingController();
 
   String selectedCategory = 'Computer Science';
   String? selectedSubcategory;
@@ -206,6 +207,30 @@ class _Add_QuizState extends State<Add_Quiz> {
                     ),
                   )),
               SizedBox(height: 20,),
+               Text("Discription", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),),
+              SizedBox(height: 10,),
+              Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xffececf8),
+                  ),
+                  child: TextField(
+                    controller: Discription_controller,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Enter Discription",
+                        hintStyle: TextStyle(
+                            color: Color.fromARGB(255, 160, 160, 147),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold)
+                    ),
+                  )),
+              SizedBox(height: 20,),
               Text("Branch", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),),
               SizedBox(height: 10,),
               YourWidget(onCategorySelected: (category, subcategory) {
@@ -269,6 +294,7 @@ class _Add_QuizState extends State<Add_Quiz> {
     String option3 = option3_controller.text;
     String option4 = option4_controller.text;
     String correctAns = correctAns_controller.text;
+    String Discription=Discription_controller.text;
     String category = quizState.selectedCategory;
     String topic = quizState.selectedSubcategory ?? "";
 
@@ -282,6 +308,7 @@ class _Add_QuizState extends State<Add_Quiz> {
     'question': question,
     'options': [option1, option2, option3, option4],
     'correctAnswer': correctAns,
+    'iscription':Discription
   });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -297,5 +324,6 @@ class _Add_QuizState extends State<Add_Quiz> {
     option3_controller.clear();
     option4_controller.clear();
     correctAns_controller.clear();
+    Discription_controller.clear();
   }
 }

@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:quiz/screens.dart/vidscreen.dart';
 import 'package:quiz/services.dart/admin_login.dart';
-import 'package:quiz/screens.dart/que.dart';
+import 'package:quiz/que_widgets.dart/widgets/que.dart';
 
 import 'package:quiz/que_widgets.dart/topics/civil.dart';
 import 'package:quiz/que_widgets.dart/topics/cse_topics.dart';

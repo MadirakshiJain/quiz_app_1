@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
-import 'package:quiz/que_widgets.dart/category.dart';
-import 'package:quiz/que_widgets.dart/result.dart';
+import 'package:quiz/que_widgets.dart/widgets/category.dart';
+import 'package:quiz/que_widgets.dart/widgets/result.dart';
 
 class TestPage extends StatefulWidget {
   
@@ -289,20 +288,11 @@ class _QuestionPageState extends State<TestPage> {
 
     String selectedOptionValue = questions![questionIndex]['options'][selectedOptionIndex];
     String correctAnswerValue = questions![questionIndex]['correctAnswer'];
-
-    // Check if the selected option is correct
     bool isCorrect = selectedOptionValue == correctAnswerValue;
-
-    // Update the list of answer results
     answerResults[questionIndex] = isCorrect;
-
-    // Update the UI to reflect the user's selection
     setState(() {
-      // Reset all option colors to default
       optionBorderColors[questionIndex] =
           List<Color>.filled(questions![questionIndex]['options'].length, Color(0xffA42FC1));
-
-      // Update the color of the selected option based on correctness
       if (isCorrect) {
         optionBorderColors[questionIndex][selectedOptionIndex] = Colors.green;
       } else {
@@ -489,7 +479,8 @@ class _QuestionPageState extends State<TestPage> {
                                                     correctAnswers: calculateCorrectAnswers(),
                                                     incorrectAnswers: totalQuestions -
                                                         calculateCorrectAnswers(),
-                                                    answerResults: calculateAnswerResults(),
+                                                    answerResults: calculateAnswerResults(), 
+                                                   selectedCategory:Provider.of<QuizState>(context, listen: false).selectedCategory, 
                                                   ),
                                                 ),
                                               );

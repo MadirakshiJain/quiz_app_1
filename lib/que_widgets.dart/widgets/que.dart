@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:quiz/que_widgets.dart/category.dart';
+import 'package:quiz/que_widgets.dart/widgets/category.dart';
 
-import 'package:quiz/que_widgets.dart/result.dart';
+import 'package:quiz/que_widgets.dart/widgets/result.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,61 +38,64 @@ class _QuestionPageState extends State<QuestionPage> {
     super.dispose();
   }
 
+  void _showDescriptionDialog(String? description) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Question Description'),
+        content: Text(description ?? 'No description available'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Close'),
+          ),
+        ],
+      );
+    },
+  );
+}
   Future<void> fetchQuestions() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final cachedQuestionsKey = 'cached_questions_${widget.topic}';
 
-    String? cachedQuestions = prefs.getString(cachedQuestionsKey);
-    if (cachedQuestions != null) {
-      setState(() {
-        questions = List<Map<String, dynamic>>.from(json.decode(cachedQuestions));
-        optionBorderColors = List.generate(
-          questions!.length,
-          (index) => List<Color>.filled(
-            questions![index]['options'].length,
-            Color(0xffA42FC1),
-          ),
-        );
-        answerResults = List<bool>.filled(questions!.length, false);
-      });
-    } else {
-      final selectedCategory =
-          Provider.of<QuizState>(context, listen: false).selectedCategory;
-      CollectionReference topicsRef =
-          FirebaseFirestore.instance.collection('questions');
+    final selectedCategory =
+        Provider.of<QuizState>(context, listen: false).selectedCategory;
+    CollectionReference topicsRef =
+        FirebaseFirestore.instance.collection('questions');
 
-      QuerySnapshot<Map<String, dynamic>> snapshot = await topicsRef
-          .doc(selectedCategory)
-          .collection('topics')
-          .doc(widget.topic)
-          .collection('questions')
-          .get();
+    QuerySnapshot<Map<String, dynamic>> snapshot = await topicsRef
+        .doc(selectedCategory)
+        .collection('topics')
+        .doc(widget.topic)
+        .collection('questions')
+        .get();
 
-      List<Map<String, dynamic>> fetchedQuestions =
-          snapshot.docs.map((doc) => doc.data()).toList();
+    List<Map<String, dynamic>> fetchedQuestions =
+        snapshot.docs.map((doc) => doc.data()).toList();
 
-      setState(() {
-        questions = fetchedQuestions;
-        optionBorderColors = List.generate(
-          questions!.length,
-          (index) => List<Color>.filled(
-            questions![index]['options'].length,
-            Color(0xffA42FC1),
-          ),
-        );
-        answerResults = List<bool>.filled(questions!.length, false);
-      });
+    setState(() {
+      questions = fetchedQuestions;
+      optionBorderColors = List.generate(
+        questions!.length,
+        (index) => List<Color>.filled(
+          questions![index]['options'].length,
+          Color(0xffA42FC1),
+        ),
+      );
+      answerResults = List<bool>.filled(questions!.length, false);
+    });
 
-      // Cache fetched questions
-      prefs.setString(cachedQuestionsKey, json.encode(fetchedQuestions));
-    }
+    // Cache fetched questions
+    prefs.setString(cachedQuestionsKey, json.encode(fetchedQuestions));
   }
 
   void selectOption(int questionIndex, int selectedOptionIndex) {
     if (questions == null ||
         questions!.isEmpty ||
         questionIndex >= questions!.length) {
-      // Ensure questions list is not null, empty, and index is within bounds
       return;
     }
 
@@ -100,14 +103,8 @@ class _QuestionPageState extends State<QuestionPage> {
         questions![questionIndex]['options'][selectedOptionIndex];
 
     String correctAnswerValue = questions![questionIndex]['correctAnswer'];
-
-    // Check if the selected option is correct
     bool isCorrect = selectedOptionValue == correctAnswerValue;
-
-    // Update the list of answer results
     answerResults[questionIndex] = isCorrect;
-
-    // Update the UI to reflect the user's selection
     setState(() {
       // Reset all option colors to default
       optionBorderColors[questionIndex] =
@@ -295,6 +292,7 @@ class _QuestionPageState extends State<QuestionPage> {
                                                   correctAnswers: calculateCorrectAnswers(),
                                                   incorrectAnswers: totalQuestions - calculateCorrectAnswers(),
                                                   answerResults: calculateAnswerResults(),
+                                                   selectedCategory:Provider.of<QuizState>(context, listen: false).selectedCategory, 
                                                 ),
                                               ));
                                             }
@@ -313,7 +311,10 @@ class _QuestionPageState extends State<QuestionPage> {
                                       ),
                                       Center(
                                         child: TextButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            _showDescriptionDialog(questions![index]['description']);
+
+                                          },
                                           child: Text(
                                             "View Description",
                                             style: TextStyle(

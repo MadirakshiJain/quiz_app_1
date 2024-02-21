@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
 import 'package:quiz/que_widgets.dart/homepage/mec_home.dart';
-import 'package:quiz/screens.dart/que.dart';
+import 'package:quiz/que_widgets.dart/widgets/que.dart';
 
 class Mec_Topics extends StatelessWidget {
   const Mec_Topics({super.key});
@@ -19,17 +19,11 @@ class Mec_Topics extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
-                    child: IconButton(
-                      color: Colors.white,
+                    child:IconButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Mec_Home(),
-                          ),
-                        );
+                        Navigator.of(context).pop(); // Navigate back to previous page
                       },
-                      icon: Icon(Icons.arrow_back_ios, size: 20,),
+                      icon: Icon(Icons.arrow_back_ios, color: Colors.white),
                     ),
                   ),
                   Expanded(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/que_widgets.dart/branches/branches.dart';
+import 'package:quiz/que_widgets.dart/widgets/branches.dart';
 import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
 
  
@@ -20,6 +20,7 @@ Widget build(BuildContext context) {
                   color:Colors.white,
                 ),
               ),
+              
                Container(
                 width:MediaQuery.of(context).size.width,
                 height:MediaQuery.of(context).size.height/1.4,
@@ -28,9 +29,25 @@ Widget build(BuildContext context) {
                   borderRadius: 
                        BorderRadius.only(bottomRight:Radius.circular(70)),
               ),
-              child: Align(
-                alignment: Alignment.center,
-                child: Image.asset("Assets/education-concept-with-cartoon-learning-reading-vector-34983031-removebg-preview (1).png",
+              child: Center(
+                
+                child:  Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 50,),
+                   Text("  EngiQuest", style:TextStyle(
+                         fontSize:25,
+                         fontWeight:FontWeight.bold,
+                         fontStyle: FontStyle.italic,
+                         color: Colors.white,
+                         letterSpacing:1,
+                         wordSpacing:2,
+                                     ),),
+                  //  SizedBox(height: 20,),
+                   Image.asset("Assets/welcome.png",
+                      height: 270,
+                      ),
+                  ],
                 ),
               ),
               ),
@@ -50,8 +67,8 @@ Widget build(BuildContext context) {
             alignment: Alignment.bottomCenter,
             child:Container(
               width:MediaQuery.of(context).size.width,
-              height: 320,
-                //height:MediaQuery.of(context).size.height/2.666,
+               height: 350,
+               
                 padding: EdgeInsets.only(top:40,),
                 decoration:BoxDecoration(
                    color: Colors.white,
@@ -59,28 +76,48 @@ Widget build(BuildContext context) {
                     topLeft: Radius.circular(70),
                    ),
                 ),
-                child: Column(children:[
-                      Text("WELCOME !",
+                child: Column(
+                  
+                  children:[
+                  SizedBox(
+                    height: 5,
+                  ),
+                      Text(" WELCOME   TO ",
                        style:TextStyle(
                          fontSize:25,
+                         fontStyle: FontStyle.italic,
                          fontWeight:FontWeight.w600,
+                     color:    Color.fromARGB(255, 131, 7, 153),
                          letterSpacing:1,
                          wordSpacing:2,
                   ),
                 ),
-                  SizedBox(height: 10),
+                // SizedBox(
+                //     height: 10,
+                //   ),
+                      Text("  ENGIQUEST !",
+                       style:TextStyle(
+                         fontSize:25,
+                         fontStyle: FontStyle.italic,
+                         fontWeight:FontWeight.w600,
+                     color:    Color.fromARGB(255, 131, 7, 153),
+                         letterSpacing:1,
+                         wordSpacing:2,
+                  ),
+                ),
+                  SizedBox(height: 20),
                   Padding
                   (padding:EdgeInsets.symmetric(horizontal:40,vertical: 15),
                   child: Text(
-                    "Learning with pleasure with Dear Programmer,Wherever you are.",
+                   "Get Ready to Play, Learn, and Conquer – Welcome to the Quiz Universe!",
                     textAlign: TextAlign.center,
                     style:TextStyle(
-                      fontSize:17,
+                      fontSize:18,
                       color:Colors.black.withOpacity(0.6),
                       ),
                   ),
                   ),
-                   SizedBox(height: 20),
+                   SizedBox(height: 18),
                   Material( 
                     color:Color.fromARGB(255, 160, 20, 184),
                     borderRadius: BorderRadius.circular(10),
@@ -110,28 +147,7 @@ Widget build(BuildContext context) {
                       ),
                     ),
                     SizedBox(height: 8,),
-                  //   Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: [
-                  //    Text("Already Registered ? ",style: TextStyle(fontSize: 18),),
-                  //     TextButton(
-                  //       style: TextButton.styleFrom(
-                  //         padding: EdgeInsets.zero,
-                  //       ),
-                  //       onPressed: () {
-                          
-                  //       },
-                  //       child:
-                  //       //  Text(
-                  //       //   "Login",
-                  //       //   style: TextStyle(
-                  //       //       color:Color.fromARGB(255, 160, 20, 184),
-                  //       //       fontSize: 18),
-                  //       // ),
-                  //     );
-                  //   ],
-                  // ),
-
+                  
                 ],
                 ),
             ),

@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:quiz/screens.dart/vidscreen.dart';
 import 'package:quiz/services.dart/admin_login.dart';
-import 'package:quiz/screens.dart/que.dart';
+import 'package:quiz/que_widgets.dart/widgets/que.dart';
 
 import 'package:quiz/que_widgets.dart/topics/civil.dart';
 import 'package:quiz/que_widgets.dart/topics/cse_topics.dart';
@@ -86,7 +86,7 @@ class Civil_Home extends StatelessWidget {
                         Container(
                           margin: EdgeInsets.only(left: 70, top: 25),
                           child: Row(
-                            children: [Image.asset("Assets/books (1) (1).png")],
+                            children: [Image.asset("Assets/home.png")],
                           ),
                         )
                       ],
@@ -131,7 +131,7 @@ class Civil_Home extends StatelessWidget {
                                Center(
                                       child: CircleAvatar(
                                         backgroundImage:
-                                           AssetImage("Assets/cse.png"),
+                                           AssetImage("Assets/practise.jpg"),
                                         radius: 45,
                                         backgroundColor:Colors.white,
                                         
@@ -202,7 +202,7 @@ class Civil_Home extends StatelessWidget {
                                        Center(
                                       child: CircleAvatar(
                                         backgroundImage:
-                                           AssetImage("Assets/mec.png"),
+                                           AssetImage("Assets/test.png"),
                                         radius: 45,
                                         backgroundColor:Colors.white,
                                         

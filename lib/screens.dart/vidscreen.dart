@@ -89,8 +89,6 @@ class vidscreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                   SizedBox(height: 30),
-                   Text("CSE"),
                   SizedBox(height: 30),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -155,8 +153,7 @@ class vidscreen extends StatelessWidget {
                     ),
                   ),
                    SizedBox(height: 30),
-                   Text("CSE"),
-                  SizedBox(height: 30),
+                  
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -220,8 +217,7 @@ class vidscreen extends StatelessWidget {
                     ),
                   ),
                    SizedBox(height: 30),
-                   Text("CSE"),
-                  SizedBox(height: 30),
+                   
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -285,8 +281,7 @@ class vidscreen extends StatelessWidget {
                     ),
                   ),
                    SizedBox(height: 30),
-                   Text("CSE"),
-                  SizedBox(height: 30),
+                  
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(

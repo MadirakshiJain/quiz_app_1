@@ -302,12 +302,12 @@ class Ecm_Home extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15)
             ), ),
                   onPressed: (){
-                    Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      vidscreen()),
-                                            );
+                    // Navigator.push(
+                    //                           context,
+                    //                           MaterialPageRoute(
+                    //                               builder: (context) =>
+                    //                                   vidscreen()),
+                    //                         );
                   }, child: Icon(Icons.play_circle,color: Color.fromARGB(255, 160, 20, 184),size: 30,)), ],
             ),  ),
         ],

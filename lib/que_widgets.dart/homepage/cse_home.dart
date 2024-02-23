@@ -365,10 +365,17 @@ class Homepage extends StatelessWidget {
               ), ),
                     onPressed: (){
                       Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        vidscreen()),
+                          context,
+                          MaterialPageRoute(
+                           builder: (context) =>
+                           VidScreen(videoUrls: [
+                   'https://www.youtube.com/watch?v=URfNAAuZ52w&list=PLbGui_ZYuhigZkqrHbI_ZkPBrIr5Rsd5L&index=1',
+                   'https://www.youtube.com/watch?v=ZzVCB98v6tY&list=PLu191Xpr_tMAuh2Xfy_qX83b5Eua_knWY&index=1',
+                   'https://www.youtube.com/watch?v=04A4PRikkCY&list=PL-JvKqQx2AteLNR8UO4UQiDmQF-Wotu5G&index=1',
+                   'https://www.youtube.com/watch?v=wGLTV8MgLlA&list=PLU6SqdYcYsfJ27O0dvuMwafS3X8CecqUg&index=1',
+                   'https://www.youtube.com/watch?v=-M7oIM8hKSU&list=PL9zFgBale5fuk0FSD8CNixOXXWvNwu7ba&index=1',
+                   'https://www.youtube.com/watch?v=RBSGKlAvoiM&list=PLWKjhJtqVAbn5emQ3RRG8gEBqkhf_5vxD&index=1'
+                                                        ],)),
                                               );
                     }, child: Icon(Icons.play_circle,color: Color.fromARGB(255, 160, 20, 184),size: 30,)),
                     

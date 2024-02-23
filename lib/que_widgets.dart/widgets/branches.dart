@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz/bottomNav.dart';
 import 'package:quiz/que_widgets.dart/homepage/civil_home.dart';
 import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
 import 'package:quiz/que_widgets.dart/homepage/ecm_home.dart';
@@ -79,7 +80,7 @@ class Branches extends StatelessWidget {
                        Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>Mec_Home()),
+                                  builder: (context) =>BottomNav()),
                             );
                     },
                    child:

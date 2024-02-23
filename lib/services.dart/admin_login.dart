@@ -31,19 +31,12 @@ class _AdminLoginState extends State<AdminLogin> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       
                       children: [
-                        Container(
-                     
-                         child: IconButton(
-                         color: Colors.white,
-                         
-                         onPressed: () {  
-                          Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>Homepage()),
-                      );
-                         }, icon: Icon(Icons.arrow_back_ios,size: 20,)),
-                        ),
+                        IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Navigate back to previous page
+                    },
+                    icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+                  ),
                         SizedBox(width: 30,),
                         Expanded(child: Text("Admin  Login",style: TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold),)),
                       ],

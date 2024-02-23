@@ -52,6 +52,7 @@ class Homepage extends StatelessWidget {
                 ],
               ),
             ),
+           
             Container(
                 margin: EdgeInsets.only(top: 10,left: 5,right: 5),
                decoration: BoxDecoration(
@@ -107,6 +108,7 @@ class Homepage extends StatelessWidget {
           ],
         ),
       ),
+      
       body: SingleChildScrollView(
         child: Column(
           children: [

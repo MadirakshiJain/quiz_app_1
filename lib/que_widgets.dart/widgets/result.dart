@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:quiz/que_widgets.dart/widgets/branches.dart';
-import 'package:quiz/que_widgets.dart/homepage/civil_home.dart';
-import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
-import 'package:quiz/que_widgets.dart/homepage/ecm_home.dart';
-import 'package:quiz/que_widgets.dart/homepage/ee_home.dart';
-import 'package:quiz/que_widgets.dart/homepage/mec_home.dart';
+
+import 'package:quiz/screens.dart/bottomNav.dart';
 
 class ResultPage extends StatelessWidget {
   final int totalQuestions;
@@ -41,27 +38,27 @@ class ResultPage extends StatelessWidget {
       correctAnswersValue = 1;
     }
 
-    // Determine which homepage to navigate based on the selected category
-    Widget homepage;
+    // Determine which bottom navigation bar to return to based on the selected category
+    Widget bottomNav;
     switch (selectedCategory) {
       case 'Computer Science':
-        homepage = Homepage();
+        bottomNav = CseBottomNav();
         break;
       case 'Mechanical':
-        homepage = Mec_Home();
+        bottomNav = MechBottomNav();
         break;
       case 'Electrical':
-        homepage = Ee_Home();
+        bottomNav = EeBottomNav();
         break;
       case 'Electronic':
-        homepage = Ecm_Home();
+        bottomNav = EcmBottomNav();
         break;
       case 'Civil':
-        homepage = Civil_Home();
+        bottomNav = CivilBottomNav();
         break;
-      // Add cases for other categories if needed
       default:
-        homepage =Branches();
+        // Default to CSE bottom nav if category is unknown
+        bottomNav = Branches();
         break;
     }
 
@@ -109,15 +106,17 @@ class ResultPage extends StatelessWidget {
                       sections: [
                         if (correctAnswersValue > 0)
                           PieChartSectionData(
-                            title: correctAnswers.toString(),
-                            color: Colors.green,
+                            title: ' $correctAnswers',
                             value: correctAnswersValue,
+                            color: Colors.green,
+                            radius: 30,
                           ),
                         if (incorrectAnswersValue > 0)
                           PieChartSectionData(
-                            title: incorrectAnswers.toString(),
-                            color: Colors.red,
+                            title: ' $incorrectAnswers',
                             value: incorrectAnswersValue,
+                            color: Colors.red,
+                            radius: 30,
                           ),
                       ],
                     ),
@@ -166,11 +165,9 @@ class ResultPage extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => homepage,
-                      ),
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => bottomNav),
+                      (route) => false,
                     );
                   },
                   child: Text(

@@ -3,12 +3,7 @@ import 'package:quiz/que_widgets.dart/homepage/mec_home.dart';
 import 'package:quiz/screens.dart/search.dart';
 import 'package:quiz/screens.dart/vidscreen.dart';
 
-const TextStyle _textStyle = TextStyle(
-  fontSize: 40,
-  fontWeight: FontWeight.bold,
-  letterSpacing: 2,
-  fontStyle: FontStyle.italic,
-);
+
 
 class BottomNav extends StatefulWidget {
   const BottomNav({Key? key}) : super(key: key);

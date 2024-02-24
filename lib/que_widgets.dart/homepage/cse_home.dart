@@ -1,33 +1,23 @@
-
-
 import 'package:flutter/material.dart';
-import 'package:quiz/bottomNav.dart';
-import 'package:quiz/que_widgets.dart/widgets/branches.dart';
 import 'package:quiz/que_widgets.dart/topics/cse_topics.dart';
-import 'package:quiz/screens.dart/search.dart';
+import 'package:quiz/que_widgets.dart/widgets/branches.dart';
 import 'package:quiz/que_widgets.dart/widgets/test.dart';
-import 'package:quiz/screens.dart/vidscreen.dart';
 import 'package:quiz/services.dart/admin_login.dart';
 
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
 
-  
-
   @override
   Widget build(BuildContext context) {
-    String topic ;
     return Scaffold(
       appBar: AppBar(
         title: Text("Hey !",
-            style: TextStyle(fontWeight: FontWeight.w500,
-            fontStyle: FontStyle.italic,
-             fontSize: 25,color: Colors.white)),
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25,color: Colors.white)),
         backgroundColor: Color.fromARGB(255, 160, 20, 184),
       iconTheme: IconThemeData.fallback(),
       ),
-      drawer: Drawer(
+        drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -115,7 +105,6 @@ class Homepage extends StatelessWidget {
           children: [
             Container(
               height: 655,
-              
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Container(
@@ -136,9 +125,9 @@ class Homepage extends StatelessWidget {
                                    ),
                           
                           Container(
-                            margin: EdgeInsets.only(left: 70, top: 05),
+                            margin: EdgeInsets.only(left: 70, top: 25),
                             child: Row(
-                              children: [Image.asset("Assets/home.png",)],
+                              children: [Image.asset("Assets/home.png")],
                             ),
                           )
                         ],
@@ -185,8 +174,7 @@ class Homepage extends StatelessWidget {
                                           backgroundImage:
                                              AssetImage("Assets/practise.jpg"),
                                           radius: 45,
-                                          backgroundColor:Colors.white
-                                          
+                                          backgroundColor:Colors.white,
                                           
                                         ),
                                       ),
@@ -285,7 +273,7 @@ class Homepage extends StatelessWidget {
                                                Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => TestPage()),
+                                  builder: (context) => TestPage(selectedBranch: 'CSE',)),
                             );
                                             },
                                             child: Text(
@@ -306,12 +294,13 @@ class Homepage extends StatelessWidget {
                           ],
                         ),
                       ),
-                 
+                      SizedBox(height: 100,)
                     ],
                   ),
-                ), 
+                ),
               ),
             ),
+          
           ],
         ),
       ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/bottomNav.dart';
+import 'package:quiz/screens.dart/bottomNav.dart';
 import 'package:quiz/que_widgets.dart/homepage/civil_home.dart';
 import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
 import 'package:quiz/que_widgets.dart/homepage/ecm_home.dart';
@@ -7,7 +7,7 @@ import 'package:quiz/que_widgets.dart/homepage/ee_home.dart';
 import 'package:quiz/que_widgets.dart/homepage/mec_home.dart';
 
 class Branches extends StatelessWidget {
-  const Branches({super.key});
+ const Branches({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class Branches extends StatelessWidget {
                        Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Homepage()),
+                                  builder: (context) => CseBottomNav()),
                             );
                     },
                     child: Expanded(
@@ -80,7 +80,7 @@ class Branches extends StatelessWidget {
                        Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>BottomNav()),
+                                  builder: (context) =>MechBottomNav()),
                             );
                     },
                    child:
@@ -133,7 +133,7 @@ class Branches extends StatelessWidget {
                    Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Ee_Home()),
+                                  builder: (context) => EeBottomNav()),
                             );
                 } ,
                    child:
@@ -186,7 +186,7 @@ class Branches extends StatelessWidget {
                      Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Ecm_Home()),
+                                  builder: (context) => EcmBottomNav()),
                             );
                   },
                    child: 
@@ -239,7 +239,7 @@ class Branches extends StatelessWidget {
                     Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Civil_Home()),
+                                  builder: (context) => CivilBottomNav()),
                             );
                   },
                    child:

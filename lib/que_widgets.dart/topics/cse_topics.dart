@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/que_widgets.dart/widgets/category.dart';
-import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
 import 'package:quiz/que_widgets.dart/widgets/que.dart';
-//import 'package:your_app_path/question_page.dart';
+
 
 class Cse_Topics extends StatelessWidget {
   const Cse_Topics({Key? key});

@@ -1,10 +1,6 @@
-// civil_topics.dart
-
 import 'package:flutter/material.dart';
-import 'package:quiz/que_widgets.dart/homepage/civil_home.dart';
-import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
 import 'package:quiz/que_widgets.dart/widgets/que.dart';
- // Update with the correct path
+
 
 class Civil_Topics extends StatelessWidget {
   const Civil_Topics({Key? key});

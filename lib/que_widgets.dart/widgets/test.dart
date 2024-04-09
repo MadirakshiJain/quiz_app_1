@@ -1283,7 +1283,7 @@ class _QuestionPageState extends State<TestPage> {
                                         ),
                                         child: ElevatedButton(
                                           style: ElevatedButton.styleFrom(
-                                            primary: Color.fromARGB(255, 160, 20, 184),
+                                            backgroundColor: Color.fromARGB(255, 160, 20, 184),
                                             padding: EdgeInsets.symmetric(
                                               horizontal: 10,
                                               vertical: 12,

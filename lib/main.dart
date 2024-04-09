@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:quiz/que_widgets.dart/widgets/category.dart';
 import 'package:quiz/screens.dart/welcome.dart';
 import 'package:quiz/services.dart/firebase_options.dart';
-import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
 import 'package:provider/provider.dart';
-import 'package:quiz/screens.dart/vidscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 

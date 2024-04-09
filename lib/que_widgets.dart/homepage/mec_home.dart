@@ -1,16 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:quiz/que_widgets.dart/widgets/branches.dart';
 import 'package:quiz/que_widgets.dart/widgets/test.dart';
-import 'package:quiz/screens.dart/vidscreen.dart';
 import 'package:quiz/services.dart/admin_login.dart';
-import 'package:quiz/que_widgets.dart/widgets/que.dart';
-
-import 'package:quiz/que_widgets.dart/topics/civil.dart';
-import 'package:quiz/que_widgets.dart/topics/cse_topics.dart';
-import 'package:quiz/que_widgets.dart/topics/ee_topics.dart';
-import 'package:quiz/que_widgets.dart/topics/ecm.dart';
 import 'package:quiz/que_widgets.dart/topics/mec_topics.dart';
 
 class Mec_Home extends StatelessWidget {

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/que_widgets.dart/widgets/category.dart';
-import 'package:quiz/que_widgets.dart/homepage/cse_home.dart';
-import 'package:quiz/que_widgets.dart/homepage/ee_home.dart';
 import 'package:quiz/que_widgets.dart/widgets/que.dart';
 
 class Ee_Topics extends StatelessWidget {

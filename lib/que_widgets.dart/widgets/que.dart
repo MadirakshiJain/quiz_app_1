@@ -271,7 +271,7 @@ class _QuestionPageState extends State<QuestionPage> {
                                             top: 30, bottom: 10, left: 20, right: 20),
                                         child: ElevatedButton(
                                           style: ElevatedButton.styleFrom(
-                                            primary: Color.fromARGB(
+                                            backgroundColor: Color.fromARGB(
                                                 255, 160, 20, 184),
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 10, vertical: 12),
